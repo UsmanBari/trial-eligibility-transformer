@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trialmatch"
+version = "0.1.0"
+description = "Criterion-level clinical trial eligibility with a fine-tuned decoder Transformer (GenAI A2)"
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,13 @@
+# Pinned so the cache-aware decoding code (later milestones) sees a stable
+# past_key_values / DynamicCache API. torch is taken from the environment
+# (Kaggle/Colab ship a CUDA build); locally install torch>=2.2 first.
+transformers==4.46.3
+accelerate==1.1.1
+peft==0.13.2
+datasets>=2.19,<4
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+pyyaml>=6.0
+matplotlib>=3.7
+tqdm>=4.66

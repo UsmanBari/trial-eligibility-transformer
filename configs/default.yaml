@@ -1,0 +1,29 @@
+# Single source of truth for paths, split and model settings.
+
+dataset:
+  hf_name: ncbi/TrialGPT-Criterion-Annotations
+  hf_split: train            # the HF repo has only one split; we re-split by patient
+  seed: 42
+  n_train_patients: 37
+  n_val_patients: 8
+  n_test_patients: 8
+
+paths:
+  processed_dir: data/processed
+  manifest: data/splits/split_manifest.json
+  results_dir: results
+
+model:
+  # Final choice (see report, Section III-C). Candidate 2 is used only for the
+  # zero-shot comparison.
+  target: Qwen/Qwen2.5-1.5B-Instruct
+  draft: Qwen/Qwen2.5-0.5B-Instruct
+  candidates:
+    - Qwen/Qwen2.5-1.5B-Instruct
+    - HuggingFaceTB/SmolLM2-1.7B-Instruct
+  max_input_tokens: 3072     # prompt budget; patient sentences dropped from the END if exceeded (logged)
+
+generation:
+  do_sample: false           # deterministic greedy everywhere for evaluation
+  max_new_tokens: 96
+  batch_size: 8
