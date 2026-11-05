@@ -1,0 +1,2 @@
+2026-11-05T11:41:06.556975  tag=baseline_qwen25_1p5b_test  model=Qwen/Qwen2.5-1.5B-Instruct  adapter=None
+2026-11-05T11:41:59.602737  tag=ft_best_test  model=None  adapter=outputs/lora_qwen25_1p5b_best

@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from trialmatch.data import load_split  # noqa: E402
 from trialmatch.metrics import full_report, summary_line  # noqa: E402
-from trialmatch.modeling import load_model, load_tokenizer, model_card  # noqa: E402
+from trialmatch.modeling import GREEDY_KWARGS, load_model, load_tokenizer, model_card  # noqa: E402
 from trialmatch.prompting import build_prompt, parse_output  # noqa: E402
 
 
@@ -72,10 +72,10 @@ def main():
     for s in tqdm(range(0, len(order), bs), desc=f"{args.tag}:{args.split}"):
         idx = order[s: s + bs]
         enc = tok([prompts[i] for i in idx], return_tensors="pt", padding=True,
-                  add_special_tokens=False).to(device)
+                  add_special_tokens=False, return_token_type_ids=False).to(device)
         with torch.no_grad():
-            out = model.generate(**enc, do_sample=False, max_new_tokens=gen["max_new_tokens"],
-                                 pad_token_id=tok.pad_token_id, temperature=None, top_p=None, top_k=None)
+            out = model.generate(**enc, max_new_tokens=gen["max_new_tokens"],
+                                 pad_token_id=tok.pad_token_id, **GREEDY_KWARGS)
         new = out[:, enc["input_ids"].shape[1]:]
         for j, i in enumerate(idx):
             outputs[i] = tok.decode(new[j], skip_special_tokens=True)
@@ -105,7 +105,7 @@ def main():
     run_info = {
         "tag": args.tag, "split": args.split, "n_records": len(rows), "model": model_card(model, model_name),
         "adapter": args.adapter,
-        "decoding": {"strategy": "greedy", "do_sample": False, "max_new_tokens": gen["max_new_tokens"],
+        "decoding": {"strategy": "greedy", "do_sample": False, "repetition_penalty": 1.0, "max_new_tokens": gen["max_new_tokens"],
                      "batch_size": bs, "padding_side": "left"},
         "max_input_tokens": cfg["model"]["max_input_tokens"],
         "truncation": {

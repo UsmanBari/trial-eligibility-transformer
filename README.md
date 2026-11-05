@@ -11,8 +11,8 @@ greedy speculative decoding. GenAI (AI-4009) Assignment 2, FAST-NUCES.
 | Milestone | Content | State |
 |---|---|---|
 | M1 | Data prep, fixed 37/8/8 split + manifest, metrics, zero-shot baseline | done |
-| M2 | Fine-tuning (LoRA) + checkpoint selection + before/after + final test + error analysis | code ready |
-| M3 | KV-cache decoder, tiled attention, speculative decoding | |
+| M2 | Fine-tuning (LoRA) + checkpoint selection + before/after + final test + error analysis | done |
+| M3 | KV-cache decoder, tiled attention, speculative decoding, class-balanced v2 | code ready |
 | M4 | Browser application | |
 | M5 | IEEE report, demo video | |
 
@@ -69,9 +69,11 @@ On Kaggle: open `notebooks/01_data_and_baseline.ipynb`, set **GPU T4 x1** and **
 
 ```
 configs/default.yaml        paths, split, models, generation settings
-src/trialmatch/             data, prompting, metrics, modeling
+src/trialmatch/             data, prompting, metrics, modeling, sft,
+                            kv_decode (Task 3), attention (Task 4), speculative (Task 5)
 scripts/                    prepare_data, evaluate, train_lora, select_checkpoint, rescore,
-                            error_analysis, make_figures
+                            error_analysis, make_figures, bench_kv, bench_attention,
+                            bench_spec, make_bench_figures
 notebooks/                  Kaggle notebooks per milestone
 data/splits/                published split manifest
 results/<tag>/              predictions.jsonl, metrics.json, run_info.json

@@ -1,0 +1,40 @@
+{
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "finetune": {
+    "method": "lora",
+    "output_dir": "outputs/lora_qwen25_1p5b",
+    "max_seq_len": 1024,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "epochs": 3,
+    "learning_rate": 0.0002,
+    "per_device_batch_size": 1,
+    "grad_accum": 16,
+    "gradient_checkpointing": true,
+    "warmup_ratio": 0.05,
+    "lr_scheduler": "cosine",
+    "weight_decay": 0.0,
+    "seed": 42,
+    "logging_steps": 5
+  },
+  "n_train_examples": 602,
+  "n_val_examples": 206,
+  "skipped_train": [],
+  "skipped_val": [],
+  "trainable_params": 18464768,
+  "total_params": 1562179072,
+  "train_time_s": 855.8709881179998,
+  "peak_gpu_mem_mb": 4461.56689453125,
+  "gpu": "Tesla T4",
+  "dtype": "torch.float16"
+}

@@ -1,0 +1,38 @@
+{
+  "rule": "max val macro-F1, tie -> val evidence micro-F1, tie -> earlier epoch",
+  "candidates": [
+    {
+      "epoch": 1,
+      "checkpoint": "checkpoint-37",
+      "tag": "ft_ep1_val",
+      "val_accuracy": 0.7330097087378641,
+      "val_macro_f1": 0.4680981813015061,
+      "val_evidence_micro_f1": 0.3228699551569507
+    },
+    {
+      "epoch": 2,
+      "checkpoint": "checkpoint-75",
+      "tag": "ft_ep2_val",
+      "val_accuracy": 0.7281553398058253,
+      "val_macro_f1": 0.35731997131574816,
+      "val_evidence_micro_f1": 0.2725832012678288
+    },
+    {
+      "epoch": 3,
+      "checkpoint": "checkpoint-111",
+      "tag": "ft_ep3_val",
+      "val_accuracy": 0.7233009708737864,
+      "val_macro_f1": 0.4609848484848485,
+      "val_evidence_micro_f1": 0.36283185840707965
+    }
+  ],
+  "selected": {
+    "epoch": 1,
+    "checkpoint": "checkpoint-37",
+    "tag": "ft_ep1_val",
+    "val_accuracy": 0.7330097087378641,
+    "val_macro_f1": 0.4680981813015061,
+    "val_evidence_micro_f1": 0.3228699551569507
+  },
+  "adapter_dir": "outputs/lora_qwen25_1p5b_best"
+}

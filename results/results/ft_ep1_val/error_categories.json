@@ -1,0 +1,107 @@
+{
+  "n_records": 206,
+  "counts": {
+    "inclusion_flip": 2,
+    "exclusion_flip": 1,
+    "overconfident": 31,
+    "missed_information": 10,
+    "applicability": 12,
+    "invalid_output": 0,
+    "evidence_missing": 0,
+    "evidence_wrong": 16,
+    "evidence_hallucinated": 3
+  },
+  "annotation_ids": {
+    "inclusion_flip": [
+      934,
+      935
+    ],
+    "exclusion_flip": [
+      263
+    ],
+    "overconfident": [
+      8,
+      15,
+      18,
+      19,
+      26,
+      35,
+      36,
+      235,
+      253,
+      254,
+      255,
+      260,
+      266,
+      273,
+      379,
+      510,
+      545,
+      550,
+      562,
+      563,
+      565,
+      566,
+      567,
+      799,
+      806,
+      812,
+      933,
+      937,
+      947,
+      949,
+      951
+    ],
+    "missed_information": [
+      31,
+      32,
+      33,
+      366,
+      367,
+      377,
+      499,
+      501,
+      505,
+      938
+    ],
+    "applicability": [
+      24,
+      33,
+      42,
+      513,
+      551,
+      558,
+      568,
+      801,
+      817,
+      948,
+      950,
+      954
+    ],
+    "invalid_output": [],
+    "evidence_missing": [],
+    "evidence_wrong": [
+      17,
+      20,
+      23,
+      241,
+      252,
+      270,
+      369,
+      370,
+      544,
+      548,
+      555,
+      569,
+      804,
+      813,
+      932,
+      941
+    ],
+    "evidence_hallucinated": [
+      503,
+      504,
+      505
+    ]
+  }
+}

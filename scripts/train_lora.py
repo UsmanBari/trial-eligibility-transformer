@@ -22,6 +22,17 @@ from trialmatch.modeling import load_tokenizer, pick_device_dtype  # noqa: E402
 from trialmatch.sft import ListDataset, encode_split, make_collator  # noqa: E402
 
 
+def oversample(records, cap=4):
+    """Duplicate minority (criterion_type, label) classes: copies = min(cap, round(sqrt(max/count))).
+    Only the TRAIN split is changed; validation/test are never resampled."""
+    from collections import Counter
+    cnt = Counter((r["criterion_type"], r["gold_label"]) for r in records)
+    biggest = max(cnt.values())
+    copies = {c: max(1, min(cap, round((biggest / n) ** 0.5))) for c, n in cnt.items()}
+    out = [r for r in records for _ in range(copies[(r["criterion_type"], r["gold_label"])])]
+    return out, {f"{t}/{l}": [n, copies[(t, l)]] for (t, l), n in sorted(cnt.items())}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default=str(ROOT / "configs/default.yaml"))
@@ -29,6 +40,9 @@ def main():
     ap.add_argument("--lora-r", type=int, default=None)
     ap.add_argument("--lr", type=float, default=None)
     ap.add_argument("--output-dir", default=None)
+    ap.add_argument("--model", default=None, help="base model (default: config target); e.g. the draft model")
+    ap.add_argument("--balance", choices=["none", "sqrt"], default="none",
+                    help="sqrt: oversample each (criterion type, label) class by round(sqrt(max/count)), capped at 4")
     args = ap.parse_args()
 
     cfg = yaml.safe_load(open(args.config))
@@ -40,11 +54,16 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     set_seed(ft["seed"])
 
-    name = cfg["model"]["target"]
+    name = args.model or cfg["model"]["target"]
     tok = load_tokenizer(name)
     tok.padding_side = "right"                       # right padding for training
     proc = ROOT / cfg["paths"]["processed_dir"]
-    train_items, train_skip = encode_split(load_split(proc, "train"), tok, ft["max_seq_len"])
+    train_recs = load_split(proc, "train")
+    balance_report = None
+    if args.balance == "sqrt":
+        train_recs, balance_report = oversample(train_recs)
+        print("class balancing (type, label): count -> copies:", balance_report)
+    train_items, train_skip = encode_split(train_recs, tok, ft["max_seq_len"])
     val_items, val_skip = encode_split(load_split(proc, "val"), tok, ft["max_seq_len"])
     lens = [len(x["input_ids"]) for x in train_items]
     print(f"train examples: {len(train_items)} (skipped {len(train_skip)} over max_seq_len)  "
@@ -87,7 +106,7 @@ def main():
     train_time = time.perf_counter() - t0
 
     json.dump(trainer.state.log_history, open(out_dir / "train_log.json", "w"), indent=2)
-    json.dump({"base_model": name, "finetune": ft, "n_train_examples": len(train_items),
+    json.dump({"base_model": name, "finetune": ft, "balance": args.balance, "balance_report": balance_report, "n_train_examples": len(train_items),
                "n_val_examples": len(val_items), "skipped_train": train_skip, "skipped_val": val_skip,
                "trainable_params": n_train, "total_params": n_all, "train_time_s": train_time,
                "peak_gpu_mem_mb": torch.cuda.max_memory_allocated() / 2**20 if device == "cuda" else None,

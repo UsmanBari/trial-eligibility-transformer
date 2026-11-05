@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 ap = argparse.ArgumentParser()
 ap.add_argument("--run", required=True, help="training output dir containing checkpoint-*")
 ap.add_argument("--tags", nargs="+", required=True, help="result tags of the val runs, in epoch order")
+ap.add_argument("--selection-file", default="checkpoint_selection.json")
 args = ap.parse_args()
 
 run = ROOT / args.run
@@ -39,7 +40,7 @@ for f in ["adapter_config.json", "adapter_model.safetensors"]:
 sel = {"rule": "max val macro-F1, tie -> val evidence micro-F1, tie -> earlier epoch",
        "candidates": rows, "selected": best, "adapter_dir": str(dst.relative_to(ROOT))}
 (ROOT / "results").mkdir(exist_ok=True)
-json.dump(sel, open(ROOT / "results" / "checkpoint_selection.json", "w"), indent=2)
+json.dump(sel, open(ROOT / "results" / args.selection_file, "w"), indent=2)
 for r in rows:
     flag = "  <- selected" if r is best else ""
     print(f"epoch {r['epoch']}: acc={r['val_accuracy']:.3f} macroF1={r['val_macro_f1']:.3f} "

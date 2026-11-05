@@ -40,7 +40,8 @@ def training_curve(log_path):
     ax.set_ylabel("cross-entropy (target tokens)")
     ax.grid(alpha=0.3)
     ax.legend(frameon=False)
-    save(fig, "training_curve")
+    run = Path(log_path).parent.name
+    save(fig, "training_curve" if run == "lora_qwen25_1p5b" else f"training_curve_{run}")
 
 
 def confusion(tag, subset="overall"):

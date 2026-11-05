@@ -34,6 +34,12 @@ def load_model(name: str, adapter: str | None = None, device=None, dtype=None, m
     return model
 
 
+# Pure greedy decoding. Qwen2.5-Instruct's generation_config ships sampling settings AND
+# repetition_penalty>1, which generate() still applies when do_sample=False; we switch all
+# of it off so generate(), our KV-cache decoder and speculative decoding are comparable.
+GREEDY_KWARGS = dict(do_sample=False, temperature=None, top_p=None, top_k=None, repetition_penalty=1.0)
+
+
 def model_card(model, name: str) -> dict:
     cfg = model.config
     return {
