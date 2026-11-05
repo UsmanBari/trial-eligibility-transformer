@@ -31,10 +31,10 @@
   },
   "parse_failures": 0,
   "rows_with_hallucinated_ids": 0,
-  "wall_time_s": 46.84464063299998,
+  "wall_time_s": 42.998641718000044,
   "device": "cuda:0",
   "gpu": "Tesla T4",
-  "peak_gpu_mem_mb": 3277.8134765625,
+  "peak_gpu_mem_mb": 3271.8837890625,
   "torch": "2.11.0+cu130",
-  "timestamp": "2026-11-05T05:30:51.852635"
+  "timestamp": "2026-11-05T11:23:15.135260"
 }
