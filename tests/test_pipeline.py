@@ -120,3 +120,44 @@ def test_truncation_drops_from_end_and_reports_lost_evidence():
     short, info = build_prompt(rec, _WordTok(), info["prompt_tokens"] - 60)
     assert info["dropped_sentence_ids"] == [4, 5] and info["gold_evidence_lost"] == [5]
     assert "[3]" in short and "[4]" not in short
+
+
+class _ChatTok(_WordTok):
+    """Mimics a Qwen-style template: assistant turn ends with <end>."""
+    def apply_chat_template(self, msgs, tokenize=False, add_generation_prompt=False):
+        s = "".join(f"<{m['role']}> {m['content']} <end> " for m in msgs)
+        return s + ("<assistant> " if add_generation_prompt else "")
+
+    def __call__(self, text, add_special_tokens=False):
+        return {"input_ids": [hash(w) % 1000 for w in text.split()]}
+
+
+def test_sft_masks_prompt_and_trains_on_target_only():
+    from trialmatch.sft import IGNORE_INDEX, encode_example, make_collator
+
+    class T(_ChatTok):  # template where the assistant header is part of the prompt
+        def apply_chat_template(self, msgs, tokenize=False, add_generation_prompt=False):
+            s = ""
+            for m in msgs:
+                s += f"<{m['role']}> " + (f"{m['content']} <end> " if m["role"] != "assistant" else "")
+                if m["role"] == "assistant":
+                    s += f"{m['content']} <end> "
+            return s + ("<assistant> " if add_generation_prompt else "")
+
+    rec = {"criterion_type": "exclusion", "criterion_text": "Pregnancy", "gold_label": "not excluded",
+           "gold_evidence": [1], "sentences": [{"id": 0, "text": "A man."}, {"id": 1, "text": "Male."}]}
+    e = encode_example(rec, T(), 10_000)
+    n_target = sum(l != IGNORE_INDEX for l in e["labels"])
+    assert n_target == e["n_target"] > 0 and e["labels"][: e["n_prompt"]] == [IGNORE_INDEX] * e["n_prompt"]
+    assert encode_example(rec, T(), 5) is None            # too long -> skipped, never silently cut
+    import pytest
+    pytest.importorskip("torch")
+    b = make_collator(0)([e, {**e, "input_ids": e["input_ids"][:3], "labels": e["labels"][:3]}])
+    assert b["labels"][1, 3:].eq(IGNORE_INDEX).all() and b["attention_mask"][1, 3:].eq(0).all()
+
+
+def test_macro_f1_uses_only_classes_present_in_gold():
+    from trialmatch.metrics import classification_report
+    from trialmatch import EXCLUSION_LABELS
+    rep = classification_report(["not excluded", "not excluded"], ["not excluded", "not excluded"], EXCLUSION_LABELS)
+    assert rep["macro_f1"] == 1.0 and rep["macro_f1_classes"] == ["not excluded"]

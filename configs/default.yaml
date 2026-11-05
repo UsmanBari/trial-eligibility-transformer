@@ -23,6 +23,24 @@ model:
     - HuggingFaceTB/SmolLM2-1.7B-Instruct
   max_input_tokens: 3072     # prompt budget; patient sentences dropped from the END if exceeded (logged)
 
+finetune:
+  method: lora
+  output_dir: outputs/lora_qwen25_1p5b
+  max_seq_len: 1024           # longest train example is ~560 tokens, so nothing is cut
+  lora_r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules: [q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj]
+  epochs: 3
+  learning_rate: 2.0e-4
+  per_device_batch_size: 4
+  grad_accum: 4               # effective batch 16
+  warmup_ratio: 0.05
+  lr_scheduler: cosine
+  weight_decay: 0.0
+  seed: 42
+  logging_steps: 5
+
 generation:
   do_sample: false           # deterministic greedy everywhere for evaluation
   max_new_tokens: 96

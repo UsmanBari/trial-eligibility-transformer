@@ -5,7 +5,7 @@ Classification
   * overall (6 labels) and separately for inclusion (4 labels) and exclusion (4 labels);
   * an unparseable / not-allowed prediction is the extra column "invalid" in the
     confusion matrix and always counts as wrong. Macro-F1 averages over the
-    real label classes of that subset (zero_division=0).
+    label classes that occur in the gold labels of that subset (zero_division=0).
 
 Evidence (sentence-ID sets per record)
   * micro P/R/F1: pool true positives / predicted / gold over all records;
@@ -34,13 +34,18 @@ def classification_report(gold: list[str], pred: list[str], labels: list[str]) -
         return {"n": 0}
     acc = float(np.mean([g == p for g, p in zip(gold, pred)]))
     p, r, f, s = precision_recall_fscore_support(gold, pred, labels=labels, average=None, zero_division=0)
-    _, _, macro_f1, _ = precision_recall_fscore_support(gold, pred, labels=labels, average="macro", zero_division=0)
+    # Macro-F1 averages over classes that occur in the gold labels of this subset
+    # (e.g. the test split has no gold "excluded"; a class with zero support would
+    # otherwise add a fixed 0 to the average regardless of model quality).
+    present = [l for l in labels if l in set(gold)]
+    _, _, macro_f1, _ = precision_recall_fscore_support(gold, pred, labels=present, average="macro", zero_division=0)
     cm_labels = labels + [INVALID_LABEL]
     cm = confusion_matrix(gold, pred, labels=cm_labels)
     return {
         "n": n,
         "accuracy": acc,
         "macro_f1": float(macro_f1),
+        "macro_f1_classes": present,
         "n_invalid": int(sum(x == INVALID_LABEL for x in pred)),
         "per_class": {lab: {"precision": float(p[i]), "recall": float(r[i]), "f1": float(f[i]),
                             "support": int(s[i])} for i, lab in enumerate(labels)},
