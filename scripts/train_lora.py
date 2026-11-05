@@ -53,6 +53,11 @@ def main():
 
     device, dtype = pick_device_dtype()
     model = AutoModelForCausalLM.from_pretrained(name, torch_dtype=dtype, attn_implementation="sdpa")
+    model.config.use_cache = False                   # no KV cache during training
+    if ft.get("gradient_checkpointing"):
+        # recompute activations in the backward pass: less memory, ~30% slower
+        model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
+        model.enable_input_require_grads()
     lcfg = LoraConfig(r=ft["lora_r"], lora_alpha=ft["lora_alpha"], lora_dropout=ft["lora_dropout"],
                       target_modules=ft["target_modules"], bias="none", task_type="CAUSAL_LM")
     model = get_peft_model(model, lcfg)
@@ -71,7 +76,7 @@ def main():
         logging_steps=ft["logging_steps"], eval_strategy="epoch", save_strategy="epoch",
         fp16=(dtype == torch.float16), bf16=(dtype == torch.bfloat16),
         seed=ft["seed"], data_seed=ft["seed"], report_to="none", remove_unused_columns=False,
-        dataloader_num_workers=0,
+        dataloader_num_workers=0, eval_accumulation_steps=1,
     )
     trainer = Trainer(model=model, args=targs, train_dataset=ListDataset(train_items),
                       eval_dataset=ListDataset(val_items), data_collator=make_collator(tok.pad_token_id))
