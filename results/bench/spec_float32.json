@@ -1,0 +1,114 @@
+{
+  "target": {
+    "name": "Qwen/Qwen2.5-1.5B-Instruct",
+    "n_params": 1543714304,
+    "n_layers": 28,
+    "hidden_size": 1536,
+    "n_heads": 12,
+    "n_kv_heads": 2,
+    "vocab_size": 151936,
+    "max_position_embeddings": 32768,
+    "rope_theta": 1000000.0,
+    "dtype": "torch.float32"
+  },
+  "target_adapter": "outputs/lora_qwen25_1p5b_v2_best",
+  "dtype": "float32",
+  "device": "Tesla T4",
+  "baseline": {
+    "task": {
+      "n_prompts": 10,
+      "new_tokens": 171,
+      "total_s": 9.275430527002754,
+      "tokens_per_s": 18.43580192878191,
+      "mean_latency_ms": 927.5430527002754,
+      "peak_mem_mb": 5968.828125,
+      "max_new_tokens": 64
+    },
+    "summary": {
+      "n_prompts": 3,
+      "new_tokens": 346,
+      "total_s": 11.992466587000308,
+      "tokens_per_s": 28.85144582141758,
+      "mean_latency_ms": 3997.488862333436,
+      "peak_mem_mb": 5939.39794921875,
+      "max_new_tokens": 160
+    }
+  },
+  "drafts": {
+    "tuned": {
+      "draft_model": {
+        "name": "Qwen/Qwen2.5-0.5B-Instruct",
+        "n_params": 494032768,
+        "n_layers": 24,
+        "hidden_size": 896,
+        "n_heads": 14,
+        "n_kv_heads": 2,
+        "vocab_size": 151936,
+        "max_position_embeddings": 32768,
+        "rope_theta": 1000000.0,
+        "dtype": "torch.float32"
+      },
+      "draft_adapter": "outputs/lora_draft_0p5b/checkpoint-63",
+      "compatibility": {
+        "same_vocab": true,
+        "target_vocab_size": 151665,
+        "draft_vocab_size": 151665,
+        "target_embedding_rows": 151936,
+        "draft_embedding_rows": 151936,
+        "same_special_tokens": true,
+        "compatible": true
+      },
+      "by_k": {
+        "4": {
+          "task": {
+            "tokens_equal": 10,
+            "n_prompts": 10,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 171,
+            "total_s": 12.895457753999835,
+            "tokens_per_s": 13.26048312995793,
+            "mean_latency_ms": 1289.5457753999835,
+            "speedup_vs_greedy": 0.7192788890433732,
+            "acceptance_rate": 0.7678571428571429,
+            "mean_accepted_per_iter": 3.380952380952381,
+            "tokens_per_target_forward": 3.2884615384615383,
+            "target_forwards": 52,
+            "draft_forwards": 168,
+            "peak_mem_mb": 8267.07421875
+          },
+          "summary": {
+            "tokens_equal": 3,
+            "n_prompts": 3,
+            "first_diff_index": [
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 346,
+            "total_s": 15.203944932999548,
+            "tokens_per_s": 22.757251589948932,
+            "mean_latency_ms": 5067.981644333183,
+            "speedup_vs_greedy": 0.7887733505908157,
+            "acceptance_rate": 0.6902173913043478,
+            "mean_accepted_per_iter": 2.847826086956522,
+            "tokens_per_target_forward": 3.642105263157895,
+            "target_forwards": 95,
+            "draft_forwards": 368,
+            "peak_mem_mb": 8066.07275390625
+          }
+        }
+      }
+    }
+  }
+}

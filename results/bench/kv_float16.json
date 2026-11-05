@@ -1,0 +1,711 @@
+{
+  "model": {
+    "name": "Qwen/Qwen2.5-1.5B-Instruct",
+    "n_params": 1543714304,
+    "n_layers": 28,
+    "hidden_size": 1536,
+    "n_heads": 12,
+    "n_kv_heads": 2,
+    "vocab_size": 151936,
+    "max_position_embeddings": 32768,
+    "rope_theta": 1000000.0,
+    "dtype": "torch.float16"
+  },
+  "adapter": "outputs/lora_qwen25_1p5b_v2_best",
+  "dtype": "float16",
+  "device": "Tesla T4",
+  "kv_cache_bytes_per_token": 28672,
+  "task_agreement": {
+    "n": 20,
+    "nocache_eq_kv": 20,
+    "kv_eq_hf_generate": 20,
+    "cases": [
+      {
+        "annotation_id": 0,
+        "prompt_tokens": 390,
+        "n_new": 37,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          390,
+          426
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          426,
+          128
+        ],
+        "text": "{\"label\": \"not enough information\", \"evidence\": [0, 1, 2, 3, 4, 5, 6, 7]}"
+      },
+      {
+        "annotation_id": 1,
+        "prompt_tokens": 369,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          369,
+          382
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          382,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [0]}"
+      },
+      {
+        "annotation_id": 2,
+        "prompt_tokens": 375,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          375,
+          388
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          388,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [0]}"
+      },
+      {
+        "annotation_id": 3,
+        "prompt_tokens": 390,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          390,
+          403
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          403,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [8]}"
+      },
+      {
+        "annotation_id": 4,
+        "prompt_tokens": 376,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          376,
+          389
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          389,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [8]}"
+      },
+      {
+        "annotation_id": 5,
+        "prompt_tokens": 386,
+        "n_new": 15,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          386,
+          400
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          400,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": [3]}"
+      },
+      {
+        "annotation_id": 6,
+        "prompt_tokens": 378,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          378,
+          391
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          391,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 7,
+        "prompt_tokens": 380,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          380,
+          393
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          393,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 8,
+        "prompt_tokens": 373,
+        "n_new": 21,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          373,
+          393
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          393,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": [0, 1, 2]}"
+      },
+      {
+        "annotation_id": 9,
+        "prompt_tokens": 374,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          374,
+          387
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          387,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 10,
+        "prompt_tokens": 381,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          381,
+          394
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          394,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 11,
+        "prompt_tokens": 381,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          381,
+          394
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          394,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 12,
+        "prompt_tokens": 374,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          374,
+          387
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          387,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 13,
+        "prompt_tokens": 378,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          378,
+          391
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          391,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 14,
+        "prompt_tokens": 382,
+        "n_new": 15,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          382,
+          396
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          396,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": [3]}"
+      },
+      {
+        "annotation_id": 15,
+        "prompt_tokens": 374,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          374,
+          387
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          387,
+          128
+        ],
+        "text": "{\"label\": \"not applicable\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 16,
+        "prompt_tokens": 377,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          377,
+          390
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          390,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 17,
+        "prompt_tokens": 373,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          373,
+          386
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          386,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 18,
+        "prompt_tokens": 381,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          381,
+          394
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          394,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 19,
+        "prompt_tokens": 379,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          379,
+          392
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          392,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      }
+    ]
+  },
+  "grid": [
+    {
+      "input_len": 128,
+      "output_len": 32,
+      "no_cache": {
+        "prefill_ms": 33.12927700017099,
+        "decode_ms": 1261.3495479999983,
+        "total_ms": 1294.568842999979,
+        "tokens_per_s": 24.718654533539176,
+        "decode_tokens_per_s": 24.576851079190334,
+        "peak_extra_mem_mb": 10.3896484375,
+        "total_ms_all_repeats": [
+          1302.9698919999646,
+          1294.4788250001693,
+          1294.568842999979
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 32.97760799978278,
+        "decode_ms": 984.9275720002879,
+        "total_ms": 1017.9051800000707,
+        "tokens_per_s": 31.437112835989083,
+        "decode_tokens_per_s": 31.474395560926524,
+        "peak_extra_mem_mb": 11.6279296875,
+        "total_ms_all_repeats": [
+          1014.6140809997632,
+          1017.9051800000707,
+          1087.6435459999811
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 1.271797087229568
+    },
+    {
+      "input_len": 128,
+      "output_len": 128,
+      "no_cache": {
+        "prefill_ms": 35.110583000005136,
+        "decode_ms": 5706.470039999658,
+        "total_ms": 5741.862113000025,
+        "tokens_per_s": 22.29241968562742,
+        "decode_tokens_per_s": 22.255439721892873,
+        "peak_extra_mem_mb": 16.4853515625,
+        "total_ms_all_repeats": [
+          5741.862113000025,
+          5741.008483999849,
+          5743.766738999966
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 33.652740999968955,
+        "decode_ms": 4125.071754000146,
+        "total_ms": 4158.724495000115,
+        "tokens_per_s": 30.778667871336463,
+        "decode_tokens_per_s": 30.7873432448408,
+        "peak_extra_mem_mb": 11.6279296875,
+        "total_ms_all_repeats": [
+          4212.319559999742,
+          4152.534233000097,
+          4158.724495000115
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 1.380678647961234
+    },
+    {
+      "input_len": 128,
+      "output_len": 256,
+      "no_cache": {
+        "prefill_ms": 34.9461999999221,
+        "decode_ms": 15506.265811000048,
+        "total_ms": 15541.57616800012,
+        "tokens_per_s": 16.471945781606134,
+        "decode_tokens_per_s": 16.4449650939883,
+        "peak_extra_mem_mb": 24.6142578125,
+        "total_ms_all_repeats": [
+          15615.20716799987,
+          15541.57616800012,
+          15177.05361299977
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 34.00386700013769,
+        "decode_ms": 8441.197620999901,
+        "total_ms": 8474.715533000108,
+        "tokens_per_s": 30.2075036032949,
+        "decode_tokens_per_s": 30.208983541104917,
+        "peak_extra_mem_mb": 13.02978515625,
+        "total_ms_all_repeats": [
+          8278.097339999931,
+          8474.715533000108,
+          8691.392269000062
+        ]
+      },
+      "tokens_equal": false,
+      "first_mismatch_index": 150,
+      "mismatch_investigation": {
+        "max_abs_logit_diff": 0.03515625,
+        "argmax_nocache": 3545,
+        "argmax_kv": 3545,
+        "top2_margin_nocache": 0.0,
+        "top2_margin_kv": 0.015625
+      },
+      "speedup_total": 1.8338758519365068
+    },
+    {
+      "input_len": 512,
+      "output_len": 32,
+      "no_cache": {
+        "prefill_ms": 98.9652590001242,
+        "decode_ms": 3762.479236999752,
+        "total_ms": 3862.325146999865,
+        "tokens_per_s": 8.285164708325143,
+        "decode_tokens_per_s": 8.239248125318504,
+        "peak_extra_mem_mb": 34.7763671875,
+        "total_ms_all_repeats": [
+          3870.4108349998023,
+          3862.325146999865,
+          3850.456738000048
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 78.6852880000879,
+        "decode_ms": 1019.0148669998962,
+        "total_ms": 1097.700154999984,
+        "tokens_per_s": 29.151858869875504,
+        "decode_tokens_per_s": 30.42153849164907,
+        "peak_extra_mem_mb": 46.51171875,
+        "total_ms_all_repeats": [
+          1098.2619540000087,
+          1065.43517099999,
+          1097.700154999984
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 3.5185611748409755
+    },
+    {
+      "input_len": 512,
+      "output_len": 128,
+      "no_cache": {
+        "prefill_ms": 101.08249199993224,
+        "decode_ms": 16289.014216000396,
+        "total_ms": 16390.09670800033,
+        "tokens_per_s": 7.809593944465299,
+        "decode_tokens_per_s": 7.796665796709187,
+        "peak_extra_mem_mb": 40.8720703125,
+        "total_ms_all_repeats": [
+          16234.77874199989,
+          16390.09670800033,
+          16507.443450999745
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 77.82994599983795,
+        "decode_ms": 4158.9619149999635,
+        "total_ms": 4236.791860999801,
+        "tokens_per_s": 30.21153839966886,
+        "decode_tokens_per_s": 30.536466213348607,
+        "peak_extra_mem_mb": 46.51171875,
+        "total_ms_all_repeats": [
+          4236.791860999801,
+          4216.230116000133,
+          4237.059874999886
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 3.868515906781548
+    },
+    {
+      "input_len": 512,
+      "output_len": 256,
+      "no_cache": {
+        "prefill_ms": 95.45609599990712,
+        "decode_ms": 34545.632157,
+        "total_ms": 34641.08825299991,
+        "tokens_per_s": 7.390068063979788,
+        "decode_tokens_per_s": 7.38154099601067,
+        "peak_extra_mem_mb": 49.0009765625,
+        "total_ms_all_repeats": [
+          34641.08825299991,
+          34636.47709399993,
+          34838.65154800014
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 79.47627400017154,
+        "decode_ms": 8230.328586999804,
+        "total_ms": 8308.78110599997,
+        "tokens_per_s": 30.81077678350875,
+        "decode_tokens_per_s": 30.98296712026597,
+        "peak_extra_mem_mb": 46.51171875,
+        "total_ms_all_repeats": [
+          8269.765906999964,
+          8308.78110599997,
+          8321.579889000077
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 4.169214209769559
+    },
+    {
+      "input_len": 1024,
+      "output_len": 32,
+      "no_cache": {
+        "prefill_ms": 189.539558999968,
+        "decode_ms": 6585.491574000116,
+        "total_ms": 6773.9522269998815,
+        "tokens_per_s": 4.723977809062951,
+        "decode_tokens_per_s": 4.707317540635798,
+        "peak_extra_mem_mb": 67.2919921875,
+        "total_ms_all_repeats": [
+          6788.986681000097,
+          6760.531740999795,
+          6773.9522269998815
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 178.44212199997855,
+        "decode_ms": 996.3450550003472,
+        "total_ms": 1175.2316860001883,
+        "tokens_per_s": 27.228673614910406,
+        "decode_tokens_per_s": 31.11371893142903,
+        "peak_extra_mem_mb": 93.0234375,
+        "total_ms_all_repeats": [
+          1168.6826129998735,
+          1175.2316860001883,
+          1181.2541509998482
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 5.763929195999227
+    },
+    {
+      "input_len": 1024,
+      "output_len": 128,
+      "no_cache": {
+        "prefill_ms": 194.4970940003259,
+        "decode_ms": 27968.909341999733,
+        "total_ms": 28156.634882999697,
+        "tokens_per_s": 4.5459977917064,
+        "decode_tokens_per_s": 4.540756253562217,
+        "peak_extra_mem_mb": 73.3876953125,
+        "total_ms_all_repeats": [
+          28156.634882999697,
+          28264.977889999955,
+          28096.972973999982
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 176.6539449999982,
+        "decode_ms": 4087.6970499998606,
+        "total_ms": 4267.1865820002495,
+        "tokens_per_s": 29.996344790716844,
+        "decode_tokens_per_s": 31.068838626386054,
+        "peak_extra_mem_mb": 93.0234375,
+        "total_ms_all_repeats": [
+          4314.973829999872,
+          4267.1865820002495,
+          4220.66345400026
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 6.598407250756126
+    },
+    {
+      "input_len": 1024,
+      "output_len": 256,
+      "no_cache": {
+        "prefill_ms": 191.88159399982396,
+        "decode_ms": 58784.18297999997,
+        "total_ms": 58976.52723700003,
+        "tokens_per_s": 4.3407099738384325,
+        "decode_tokens_per_s": 4.337901576122239,
+        "peak_extra_mem_mb": 81.5166015625,
+        "total_ms_all_repeats": [
+          58713.667282000184,
+          58976.52723700003,
+          59097.66482999976
+        ]
+      },
+      "kv_cache": {
+        "prefill_ms": 178.24639599984948,
+        "decode_ms": 8372.672014000273,
+        "total_ms": 8550.918410000122,
+        "tokens_per_s": 29.93830460370354,
+        "decode_tokens_per_s": 30.45622706509995,
+        "peak_extra_mem_mb": 93.0234375,
+        "total_ms_all_repeats": [
+          8517.890296000132,
+          8570.53379600029,
+          8550.918410000122
+        ]
+      },
+      "tokens_equal": true,
+      "first_mismatch_index": null,
+      "speedup_total": 6.89709858160127
+    }
+  ]
+}

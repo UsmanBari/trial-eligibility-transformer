@@ -1,0 +1,41 @@
+{
+  "tag": "draft_0p5b_base_val",
+  "split": "val",
+  "n_records": 206,
+  "model": {
+    "name": "Qwen/Qwen2.5-0.5B-Instruct",
+    "n_params": 494032768,
+    "n_layers": 24,
+    "hidden_size": 896,
+    "n_heads": 14,
+    "n_kv_heads": 2,
+    "vocab_size": 151936,
+    "max_position_embeddings": 32768,
+    "rope_theta": 1000000.0,
+    "dtype": "torch.float16"
+  },
+  "adapter": null,
+  "decoding": {
+    "strategy": "greedy",
+    "do_sample": false,
+    "repetition_penalty": 1.0,
+    "max_new_tokens": 96,
+    "batch_size": 8,
+    "padding_side": "left"
+  },
+  "max_input_tokens": 3072,
+  "truncation": {
+    "n_truncated": 0,
+    "n_gold_evidence_lost": 0,
+    "max_prompt_tokens": 479,
+    "mean_prompt_tokens": 372.2330097087379
+  },
+  "parse_failures": 3,
+  "rows_with_hallucinated_ids": 0,
+  "wall_time_s": 49.45231019499988,
+  "device": "cuda:0",
+  "gpu": "Tesla T4",
+  "peak_gpu_mem_mb": 1116.37744140625,
+  "torch": "2.11.0+cu130",
+  "timestamp": "2026-11-05T13:19:00.406750"
+}

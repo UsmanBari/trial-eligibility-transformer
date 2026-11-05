@@ -1,0 +1,15 @@
+{
+  "rule": "higher validation macro-F1 under pure greedy decoding",
+  "v1": {
+    "adapter": "usmanbari2005/trialmatch-qwen25-1p5b-lora",
+    "val_macro_f1": 0.4680981813015061,
+    "val_accuracy": 0.7330097087378641
+  },
+  "v2": {
+    "adapter": "outputs/lora_qwen25_1p5b_v2_best",
+    "val_macro_f1": 0.5813278934157285,
+    "val_accuracy": 0.7621359223300971,
+    "epoch": 2
+  },
+  "final": "v2"
+}

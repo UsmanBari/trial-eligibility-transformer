@@ -1,0 +1,75 @@
+{
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "finetune": {
+    "method": "lora",
+    "output_dir": "outputs/lora_qwen25_1p5b",
+    "max_seq_len": 1024,
+    "lora_r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": [
+      "q_proj",
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj",
+      "down_proj"
+    ],
+    "epochs": 2.0,
+    "learning_rate": 0.0002,
+    "per_device_batch_size": 1,
+    "grad_accum": 16,
+    "gradient_checkpointing": true,
+    "warmup_ratio": 0.05,
+    "lr_scheduler": "cosine",
+    "weight_decay": 0.0,
+    "seed": 42,
+    "logging_steps": 5
+  },
+  "balance": "sqrt",
+  "balance_report": {
+    "exclusion/excluded": [
+      8,
+      4
+    ],
+    "exclusion/not applicable": [
+      23,
+      4
+    ],
+    "exclusion/not enough information": [
+      65,
+      2
+    ],
+    "exclusion/not excluded": [
+      291,
+      1
+    ],
+    "inclusion/included": [
+      88,
+      2
+    ],
+    "inclusion/not applicable": [
+      5,
+      4
+    ],
+    "inclusion/not enough information": [
+      109,
+      2
+    ],
+    "inclusion/not included": [
+      13,
+      4
+    ]
+  },
+  "n_train_examples": 1011,
+  "n_val_examples": 206,
+  "skipped_train": [],
+  "skipped_val": [],
+  "trainable_params": 18464768,
+  "total_params": 1562179072,
+  "train_time_s": 964.651203482,
+  "peak_gpu_mem_mb": 4461.5625,
+  "gpu": "Tesla T4",
+  "dtype": "torch.float16"
+}

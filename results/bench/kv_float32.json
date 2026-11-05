@@ -1,0 +1,405 @@
+{
+  "model": {
+    "name": "Qwen/Qwen2.5-1.5B-Instruct",
+    "n_params": 1543714304,
+    "n_layers": 28,
+    "hidden_size": 1536,
+    "n_heads": 12,
+    "n_kv_heads": 2,
+    "vocab_size": 151936,
+    "max_position_embeddings": 32768,
+    "rope_theta": 1000000.0,
+    "dtype": "torch.float32"
+  },
+  "adapter": "outputs/lora_qwen25_1p5b_v2_best",
+  "dtype": "float32",
+  "device": "Tesla T4",
+  "kv_cache_bytes_per_token": 57344,
+  "task_agreement": {
+    "n": 20,
+    "nocache_eq_kv": 20,
+    "kv_eq_hf_generate": 20,
+    "cases": [
+      {
+        "annotation_id": 0,
+        "prompt_tokens": 390,
+        "n_new": 37,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          390,
+          426
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          426,
+          128
+        ],
+        "text": "{\"label\": \"not enough information\", \"evidence\": [0, 1, 2, 3, 4, 5, 6, 7]}"
+      },
+      {
+        "annotation_id": 1,
+        "prompt_tokens": 369,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          369,
+          382
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          382,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [0]}"
+      },
+      {
+        "annotation_id": 2,
+        "prompt_tokens": 375,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          375,
+          388
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          388,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [0]}"
+      },
+      {
+        "annotation_id": 3,
+        "prompt_tokens": 390,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          390,
+          403
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          403,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [8]}"
+      },
+      {
+        "annotation_id": 4,
+        "prompt_tokens": 376,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          376,
+          389
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          389,
+          128
+        ],
+        "text": "{\"label\": \"included\", \"evidence\": [8]}"
+      },
+      {
+        "annotation_id": 5,
+        "prompt_tokens": 386,
+        "n_new": 15,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          386,
+          400
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          400,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": [3]}"
+      },
+      {
+        "annotation_id": 6,
+        "prompt_tokens": 378,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          378,
+          391
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          391,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 7,
+        "prompt_tokens": 380,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          380,
+          393
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          393,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 8,
+        "prompt_tokens": 373,
+        "n_new": 21,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          373,
+          393
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          393,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": [0, 1, 2]}"
+      },
+      {
+        "annotation_id": 9,
+        "prompt_tokens": 374,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          374,
+          387
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          387,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 10,
+        "prompt_tokens": 381,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          381,
+          394
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          394,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 11,
+        "prompt_tokens": 381,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          381,
+          394
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          394,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 12,
+        "prompt_tokens": 374,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          374,
+          387
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          387,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 13,
+        "prompt_tokens": 378,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          378,
+          391
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          391,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 14,
+        "prompt_tokens": 382,
+        "n_new": 15,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          382,
+          396
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          396,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": [3]}"
+      },
+      {
+        "annotation_id": 15,
+        "prompt_tokens": 374,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          374,
+          387
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          387,
+          128
+        ],
+        "text": "{\"label\": \"not applicable\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 16,
+        "prompt_tokens": 377,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          377,
+          390
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          390,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 17,
+        "prompt_tokens": 373,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          373,
+          386
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          386,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 18,
+        "prompt_tokens": 381,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          381,
+          394
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          394,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      },
+      {
+        "annotation_id": 19,
+        "prompt_tokens": 379,
+        "n_new": 14,
+        "nocache_eq_kv": true,
+        "kv_eq_hf_generate": true,
+        "first_mismatch_nc_kv": null,
+        "cache_len_start_end": [
+          379,
+          392
+        ],
+        "layer0_key_shape_end": [
+          1,
+          2,
+          392,
+          128
+        ],
+        "text": "{\"label\": \"not excluded\", \"evidence\": []}"
+      }
+    ]
+  }
+}
