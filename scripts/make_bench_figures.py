@@ -87,12 +87,14 @@ def spec():
                 axes[1].plot(x, [val(r["predicted"]["speedup_formula"]) for r in rows], "x", color=col, ms=7)
             axes[2].plot(x, [r["tokens_per_target_forward"] for r in rows], ls, marker="o", color=col)
     axes[1].axhline(1.0, color="black", lw=0.8)
-    axes[1].plot([], [], "x", color="gray", label="predicted (task)")
+    axes[0].plot([], [], "x", color="gray", label="predicted speedup (task)")
     titles = ("draft acceptance rate", "speedup vs target greedy", "tokens per target forward")
     for ax, yl in zip(axes, titles):
         ax.set_xlabel("draft length k"); ax.set_ylabel(yl); ax.grid(alpha=0.3)
-    axes[0].legend(frameon=False, fontsize=7)
-    axes[1].legend(frameon=False, fontsize=7, loc="upper right")
+        ax.set_xticks(sorted({int(k) for r in d["drafts"].values() for k in r["by_k"]}))
+    h, l = axes[0].get_legend_handles_labels()            # one shared legend under the panels
+    fig.legend(h, l, loc="lower center", ncol=4, frameon=False, fontsize=8, bbox_to_anchor=(0.5, -0.12))
+    fig.tight_layout()
     save(fig, "speculative_benchmark")
 
 

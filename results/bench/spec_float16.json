@@ -11,30 +11,346 @@
     "rope_theta": 1000000.0,
     "dtype": "torch.float16"
   },
-  "target_adapter": "outputs/lora_qwen25_1p5b_v2_best",
+  "target_adapter": "usmanbari2005/trialmatch-qwen25-1p5b-lora-v2",
   "dtype": "float16",
   "device": "Tesla T4",
   "baseline": {
     "task": {
       "n_prompts": 20,
       "new_tokens": 312,
-      "total_s": 11.072524046000126,
-      "tokens_per_s": 28.17785707249901,
-      "mean_latency_ms": 553.6262023000063,
-      "peak_mem_mb": 2989.0419921875,
+      "total_s": 10.072471995000228,
+      "tokens_per_s": 30.97551426848052,
+      "mean_latency_ms": 503.62359975001146,
+      "peak_mem_mb": 2992.3466796875,
       "max_new_tokens": 64
     },
     "summary": {
       "n_prompts": 6,
       "new_tokens": 663,
-      "total_s": 22.562399235999692,
-      "tokens_per_s": 29.385172785265798,
-      "mean_latency_ms": 3760.3998726666155,
-      "peak_mem_mb": 2977.232421875,
+      "total_s": 20.62216512499981,
+      "tokens_per_s": 32.14987349685505,
+      "mean_latency_ms": 3437.027520833302,
+      "peak_mem_mb": 2978.107421875,
       "max_new_tokens": 160
     }
   },
   "drafts": {
+    "lookup": {
+      "draft_model": "prompt_lookup",
+      "draft_adapter": null,
+      "compatibility": {
+        "compatible": true,
+        "note": "drafts are copied target-vocabulary tokens"
+      },
+      "draft_step_ms": 0.0,
+      "c": 0.0,
+      "by_k": {
+        "2": {
+          "task": {
+            "tokens_equal": 20,
+            "n_prompts": 20,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 312,
+            "total_s": 8.552873383999668,
+            "tokens_per_s": 36.478968645049235,
+            "mean_latency_ms": 427.6436691999834,
+            "speedup_vs_greedy": 1.1776711220633007,
+            "acceptance_rate": 0.22625698324022347,
+            "mean_accepted_per_iter": 0.4972067039106145,
+            "tokens_per_target_forward": 1.3054393305439331,
+            "target_forwards": 239,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3082.701171875,
+            "empty_drafts": 40,
+            "predicted": {
+              "E_tokens_per_iter": 1.2774492057051903,
+              "speedup_formula": 1.1681386114553514,
+              "c": 0.0,
+              "v_k": 1.0935767323996353
+            }
+          },
+          "summary": {
+            "tokens_equal": 6,
+            "n_prompts": 6,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 663,
+            "total_s": 12.758955382000067,
+            "tokens_per_s": 51.96350172486217,
+            "mean_latency_ms": 2126.492563666678,
+            "speedup_vs_greedy": 1.6162894616038013,
+            "acceptance_rate": 0.4484375,
+            "mean_accepted_per_iter": 0.896875,
+            "tokens_per_target_forward": 1.7632978723404256,
+            "target_forwards": 376,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3038.521484375,
+            "empty_drafts": 50,
+            "predicted": {
+              "E_tokens_per_iter": 1.6495336914062502,
+              "speedup_formula": 1.5083840415904595,
+              "c": 0.0,
+              "v_k": 1.0935767323996353
+            }
+          }
+        },
+        "4": {
+          "task": {
+            "tokens_equal": 20,
+            "n_prompts": 20,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 312,
+            "total_s": 8.454175222000003,
+            "tokens_per_s": 36.904841904399305,
+            "mean_latency_ms": 422.7087611000002,
+            "speedup_vs_greedy": 1.1914198287242719,
+            "acceptance_rate": 0.11424541607898449,
+            "mean_accepted_per_iter": 0.4972067039106145,
+            "tokens_per_target_forward": 1.3054393305439331,
+            "target_forwards": 239,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3082.701171875,
+            "empty_drafts": 40,
+            "predicted": {
+              "E_tokens_per_iter": 1.1289589191672909,
+              "speedup_formula": 1.0218687648715725,
+              "c": 0.0,
+              "v_k": 1.1047983439528826
+            }
+          },
+          "summary": {
+            "tokens_equal": 6,
+            "n_prompts": 6,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 663,
+            "total_s": 11.109996725999963,
+            "tokens_per_s": 59.675985182644254,
+            "mean_latency_ms": 1851.6661209999938,
+            "speedup_vs_greedy": 1.8561810262949199,
+            "acceptance_rate": 0.31261595547309834,
+            "mean_accepted_per_iter": 1.2481481481481482,
+            "tokens_per_target_forward": 2.0337423312883436,
+            "target_forwards": 326,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3038.521484375,
+            "empty_drafts": 50,
+            "predicted": {
+              "E_tokens_per_iter": 1.450447158916514,
+              "speedup_formula": 1.3128614528212694,
+              "c": 0.0,
+              "v_k": 1.1047983439528826
+            }
+          }
+        },
+        "6": {
+          "task": {
+            "tokens_equal": 20,
+            "n_prompts": 20,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 312,
+            "total_s": 8.672173917000237,
+            "tokens_per_s": 35.97713825692312,
+            "mean_latency_ms": 433.6086958500118,
+            "speedup_vs_greedy": 1.1614702485676585,
+            "acceptance_rate": 0.07692307692307693,
+            "mean_accepted_per_iter": 0.4972067039106145,
+            "tokens_per_target_forward": 1.3054393305439331,
+            "target_forwards": 239,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3082.701171875,
+            "empty_drafts": 40,
+            "predicted": {
+              "E_tokens_per_iter": 1.0833333160686491,
+              "speedup_formula": 0.979689943227751,
+              "c": 0.0,
+              "v_k": 1.1057920146647906
+            }
+          },
+          "summary": {
+            "tokens_equal": 6,
+            "n_prompts": 6,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 663,
+            "total_s": 10.701690413999927,
+            "tokens_per_s": 61.952829352329694,
+            "mean_latency_ms": 1783.615068999988,
+            "speedup_vs_greedy": 1.927000719252908,
+            "acceptance_rate": 0.2337748344370861,
+            "mean_accepted_per_iter": 1.389763779527559,
+            "tokens_per_target_forward": 2.138709677419355,
+            "target_forwards": 310,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3038.521484375,
+            "empty_drafts": 50,
+            "predicted": {
+              "E_tokens_per_iter": 1.3050495951530474,
+              "speedup_formula": 1.180194446917452,
+              "c": 0.0,
+              "v_k": 1.1057920146647906
+            }
+          }
+        },
+        "8": {
+          "task": {
+            "tokens_equal": 20,
+            "n_prompts": 20,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 312,
+            "total_s": 8.617099774999929,
+            "tokens_per_s": 36.20707757210605,
+            "mean_latency_ms": 430.8549887499965,
+            "speedup_vs_greedy": 1.1688935091853816,
+            "acceptance_rate": 0.05798138869005011,
+            "mean_accepted_per_iter": 0.4972067039106145,
+            "tokens_per_target_forward": 1.3054393305439331,
+            "target_forwards": 239,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3082.701171875,
+            "empty_drafts": 40,
+            "predicted": {
+              "E_tokens_per_iter": 1.0615501519678219,
+              "speedup_formula": 0.9667535970664083,
+              "c": 0.0,
+              "v_k": 1.0980565835897291
+            }
+          },
+          "summary": {
+            "tokens_equal": 6,
+            "n_prompts": 6,
+            "first_diff_index": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            "new_tokens": 663,
+            "total_s": 10.33119583299981,
+            "tokens_per_s": 64.17456514397409,
+            "mean_latency_ms": 1721.8659721666352,
+            "speedup_vs_greedy": 1.996106303505416,
+            "acceptance_rate": 0.19007832898172325,
+            "mean_accepted_per_iter": 1.4979423868312758,
+            "tokens_per_target_forward": 2.217391304347826,
+            "target_forwards": 299,
+            "draft_forwards": 0,
+            "peak_mem_mb": 3038.521484375,
+            "empty_drafts": 50,
+            "predicted": {
+              "E_tokens_per_iter": 1.2346868986179842,
+              "speedup_formula": 1.124429211636424,
+              "c": 0.0,
+              "v_k": 1.0980565835897291
+            }
+          }
+        }
+      }
+    },
     "base": {
       "draft_model": {
         "name": "Qwen/Qwen2.5-0.5B-Instruct",
@@ -58,6 +374,8 @@
         "same_special_tokens": true,
         "compatible": true
       },
+      "draft_step_ms": 27.557781999917097,
+      "c": 0.8935378428622524,
       "by_k": {
         "2": {
           "task": {
@@ -86,16 +404,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 14.935931825999887,
-            "tokens_per_s": 20.889222288554006,
-            "mean_latency_ms": 746.7965912999944,
-            "speedup_vs_greedy": 0.7413346669623591,
+            "total_s": 13.937883335999913,
+            "tokens_per_s": 22.38503454783128,
+            "mean_latency_ms": 696.8941667999957,
+            "speedup_vs_greedy": 0.7226686974043051,
             "acceptance_rate": 0.5985915492957746,
             "mean_accepted_per_iter": 1.2535211267605635,
             "tokens_per_target_forward": 1.9259259259259258,
             "target_forwards": 162,
             "draft_forwards": 284,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 1.9569033921840904,
+              "speedup_formula": 0.6793264539213001,
+              "c": 0.8935378428622524,
+              "v_k": 1.0935767323996353
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -109,16 +434,23 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 25.698479091999616,
-            "tokens_per_s": 25.799192147772022,
-            "mean_latency_ms": 4283.079848666603,
-            "speedup_vs_greedy": 0.8779663245917055,
+            "total_s": 22.94673784400004,
+            "tokens_per_s": 28.892995793445944,
+            "mean_latency_ms": 3824.4563073333397,
+            "speedup_vs_greedy": 0.8986970289718962,
             "acceptance_rate": 0.7692307692307693,
             "mean_accepted_per_iter": 1.55,
             "tokens_per_target_forward": 2.492481203007519,
             "target_forwards": 266,
             "draft_forwards": 520,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.3609467455621305,
+              "speedup_formula": 0.8195875110470848,
+              "c": 0.8935378428622524,
+              "v_k": 1.0935767323996353
+            }
           }
         },
         "4": {
@@ -148,16 +480,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 16.422591332001957,
-            "tokens_per_s": 18.998219811511706,
-            "mean_latency_ms": 821.1295666000979,
-            "speedup_vs_greedy": 0.6742251464556389,
+            "total_s": 15.245630828000458,
+            "tokens_per_s": 20.464879644532257,
+            "mean_latency_ms": 762.2815414000229,
+            "speedup_vs_greedy": 0.6606792535275685,
             "acceptance_rate": 0.5459183673469388,
             "mean_accepted_per_iter": 2.663265306122449,
             "tokens_per_target_forward": 2.6440677966101696,
             "target_forwards": 118,
             "draft_forwards": 392,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.095463581619079,
+              "speedup_formula": 0.4478491347580324,
+              "c": 0.8935378428622524,
+              "v_k": 1.1047983439528826
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -171,16 +510,23 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 29.097486652000043,
-            "tokens_per_s": 22.785473121075494,
-            "mean_latency_ms": 4849.581108666674,
-            "speedup_vs_greedy": 0.7754071513406414,
+            "total_s": 26.33698518299991,
+            "tokens_per_s": 25.17372415229802,
+            "mean_latency_ms": 4389.497530499985,
+            "speedup_vs_greedy": 0.7830116082652876,
             "acceptance_rate": 0.6363636363636364,
             "mean_accepted_per_iter": 2.641711229946524,
             "tokens_per_target_forward": 3.435233160621762,
             "target_forwards": 193,
             "draft_forwards": 748,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.4630148213919814,
+              "speedup_formula": 0.5264033535740669,
+              "c": 0.8935378428622524,
+              "v_k": 1.1047983439528826
+            }
           }
         },
         "6": {
@@ -210,16 +556,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 18.495524597999975,
-            "tokens_per_s": 16.868945692610325,
-            "mean_latency_ms": 924.7762298999987,
-            "speedup_vs_greedy": 0.5986596372182631,
+            "total_s": 17.05435696899974,
+            "tokens_per_s": 18.294445259186993,
+            "mean_latency_ms": 852.7178484499871,
+            "speedup_vs_greedy": 0.5906098959526465,
             "acceptance_rate": 0.47530864197530864,
             "mean_accepted_per_iter": 3.8395061728395063,
             "tokens_per_target_forward": 3.089108910891089,
             "target_forwards": 101,
             "draft_forwards": 486,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 1.8954369291886992,
+              "speedup_formula": 0.2930928311998785,
+              "c": 0.8935378428622524,
+              "v_k": 1.1057920146647906
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -233,16 +586,23 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 31.912976429000082,
-            "tokens_per_s": 20.775248008440734,
-            "mean_latency_ms": 5318.829404833347,
-            "speedup_vs_greedy": 0.7069976467471302,
+            "total_s": 28.9915094710002,
+            "tokens_per_s": 22.868764410600615,
+            "mean_latency_ms": 4831.9182451667,
+            "speedup_vs_greedy": 0.7113173995175337,
             "acceptance_rate": 0.57,
             "mean_accepted_per_iter": 3.473333333333333,
             "tokens_per_target_forward": 4.25,
             "target_forwards": 156,
             "draft_forwards": 900,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.280118662949,
+              "speedup_formula": 0.3525764556467988,
+              "c": 0.8935378428622524,
+              "v_k": 1.1057920146647906
+            }
           }
         },
         "8": {
@@ -272,16 +632,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 22.586939060999157,
-            "tokens_per_s": 13.81329268022554,
-            "mean_latency_ms": 1129.3469530499578,
-            "speedup_vs_greedy": 0.4902179979366501,
+            "total_s": 20.779683768999348,
+            "tokens_per_s": 15.01466545248703,
+            "mean_latency_ms": 1038.9841884499674,
+            "speedup_vs_greedy": 0.48472691437331106,
             "acceptance_rate": 0.3686708860759494,
             "mean_accepted_per_iter": 3.911392405063291,
             "tokens_per_target_forward": 3.1515151515151514,
             "target_forwards": 99,
             "draft_forwards": 632,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 1.5837606059589122,
+              "speedup_formula": 0.19205573553795893,
+              "c": 0.8935378428622524,
+              "v_k": 1.0980565835897291
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -295,16 +662,23 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 36.24770579699998,
-            "tokens_per_s": 18.290812767931723,
-            "mean_latency_ms": 6041.284299499996,
-            "speedup_vs_greedy": 0.6224504072714874,
+            "total_s": 33.2341762609999,
+            "tokens_per_s": 19.949343555056796,
+            "mean_latency_ms": 5539.029376833317,
+            "speedup_vs_greedy": 0.6205107947627934,
             "acceptance_rate": 0.49347014925373134,
             "mean_accepted_per_iter": 4.067164179104478,
             "tokens_per_target_forward": 4.735714285714286,
             "target_forwards": 140,
             "draft_forwards": 1072,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 1.9707916616518253,
+              "speedup_formula": 0.23898930226355,
+              "c": 0.8935378428622524,
+              "v_k": 1.0980565835897291
+            }
           }
         }
       }
@@ -322,7 +696,7 @@
         "rope_theta": 1000000.0,
         "dtype": "torch.float16"
       },
-      "draft_adapter": "outputs/lora_draft_0p5b/checkpoint-63",
+      "draft_adapter": "usmanbari2005/trialmatch-qwen25-0p5b-draft-lora",
       "compatibility": {
         "same_vocab": true,
         "target_vocab_size": 151665,
@@ -332,6 +706,8 @@
         "same_special_tokens": true,
         "compatible": true
       },
+      "draft_step_ms": 25.885927999979685,
+      "c": 0.8393293867285476,
       "by_k": {
         "2": {
           "task": {
@@ -360,16 +736,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 12.55736620299922,
-            "tokens_per_s": 24.845974462820195,
-            "mean_latency_ms": 627.868310149961,
-            "speedup_vs_greedy": 0.881755287454749,
+            "total_s": 11.42259920299989,
+            "tokens_per_s": 27.3142736127921,
+            "mean_latency_ms": 571.1299601499945,
+            "speedup_vs_greedy": 0.8818021026558402,
             "acceptance_rate": 0.8805309734513275,
             "mean_accepted_per_iter": 1.9115044247787611,
             "tokens_per_target_forward": 2.345864661654135,
             "target_forwards": 133,
             "draft_forwards": 226,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.6558657686584697,
+              "speedup_formula": 0.9580231416297736,
+              "c": 0.8393293867285476,
+              "v_k": 1.0935767323996353
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -383,16 +766,23 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 24.91172939299895,
-            "tokens_per_s": 26.613969248811998,
-            "mean_latency_ms": 4151.954898833158,
-            "speedup_vs_greedy": 0.9056938151528131,
+            "total_s": 22.90066888999968,
+            "tokens_per_s": 28.951119427324695,
+            "mean_latency_ms": 3816.77814833328,
+            "speedup_vs_greedy": 0.900504925164223,
             "acceptance_rate": 0.7821011673151751,
             "mean_accepted_per_iter": 1.5719844357976653,
             "tokens_per_target_forward": 2.5209125475285172,
             "target_forwards": 263,
             "draft_forwards": 514,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.393783403230935,
+              "speedup_formula": 0.8634848656161198,
+              "c": 0.8393293867285476,
+              "v_k": 1.0935767323996353
+            }
           }
         },
         "4": {
@@ -422,16 +812,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 12.806617668000854,
-            "tokens_per_s": 24.362404507442754,
-            "mean_latency_ms": 640.3308834000427,
-            "speedup_vs_greedy": 0.8645939414328261,
+            "total_s": 11.953844457000287,
+            "tokens_per_s": 26.100389805330767,
+            "mean_latency_ms": 597.6922228500143,
+            "speedup_vs_greedy": 0.8426136069640501,
             "acceptance_rate": 0.8040540540540541,
             "mean_accepted_per_iter": 3.5405405405405403,
             "tokens_per_target_forward": 3.3191489361702127,
             "target_forwards": 94,
             "draft_forwards": 296,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 3.3883462991073072,
+              "speedup_formula": 0.7593586500167945,
+              "c": 0.8393293867285476,
+              "v_k": 1.1047983439528826
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -445,16 +842,23 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 29.775662660999842,
-            "tokens_per_s": 22.266506964038026,
-            "mean_latency_ms": 4962.610443499973,
-            "speedup_vs_greedy": 0.7577463344099448,
+            "total_s": 26.69017072700035,
+            "tokens_per_s": 24.84060543416813,
+            "mean_latency_ms": 4448.361787833392,
+            "speedup_vs_greedy": 0.7726501765737297,
             "acceptance_rate": 0.6316489361702128,
             "mean_accepted_per_iter": 2.617021276595745,
             "tokens_per_target_forward": 3.417525773195876,
             "target_forwards": 194,
             "draft_forwards": 752,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.441830188888361,
+              "speedup_formula": 0.5472359411117552,
+              "c": 0.8393293867285476,
+              "v_k": 1.1047983439528826
+            }
           }
         },
         "6": {
@@ -484,16 +888,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 12.509605318000013,
-            "tokens_per_s": 24.940834828023284,
-            "mean_latency_ms": 625.4802659000006,
-            "speedup_vs_greedy": 0.8851217735916834,
+            "total_s": 11.44502763599985,
+            "tokens_per_s": 27.260746755963893,
+            "mean_latency_ms": 572.2513817999925,
+            "speedup_vs_greedy": 0.8800740649430757,
             "acceptance_rate": 0.8333333333333334,
             "mean_accepted_per_iter": 5.346153846153846,
             "tokens_per_target_forward": 4.333333333333333,
             "target_forwards": 72,
             "draft_forwards": 312,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 4.32551011659808,
+              "speedup_formula": 0.7042776413305847,
+              "c": 0.8393293867285476,
+              "v_k": 1.1057920146647906
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -507,16 +918,23 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 32.35951132300079,
-            "tokens_per_s": 20.488566510852927,
-            "mean_latency_ms": 5393.251887166798,
-            "speedup_vs_greedy": 0.6972416551903423,
+            "total_s": 29.112509631999956,
+            "tokens_per_s": 22.77371509295242,
+            "mean_latency_ms": 4852.08493866666,
+            "speedup_vs_greedy": 0.7083609549872777,
             "acceptance_rate": 0.5749440715883669,
             "mean_accepted_per_iter": 3.51006711409396,
             "tokens_per_target_forward": 4.27741935483871,
             "target_forwards": 155,
             "draft_forwards": 894,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.3037738671259667,
+              "speedup_formula": 0.3750994406584752,
+              "c": 0.8393293867285476,
+              "v_k": 1.1057920146647906
+            }
           }
         },
         "8": {
@@ -546,16 +964,23 @@
               null
             ],
             "new_tokens": 312,
-            "total_s": 15.545324081999297,
-            "tokens_per_s": 20.07034387666966,
-            "mean_latency_ms": 777.2662040999649,
-            "speedup_vs_greedy": 0.712273606365116,
+            "total_s": 14.277852778999659,
+            "tokens_per_s": 21.852025289047663,
+            "mean_latency_ms": 713.8926389499829,
+            "speedup_vs_greedy": 0.7054612588396454,
             "acceptance_rate": 0.625,
             "mean_accepted_per_iter": 6.538461538461538,
             "tokens_per_target_forward": 4.333333333333333,
             "target_forwards": 72,
             "draft_forwards": 416,
-            "peak_mem_mb": 4138.212890625
+            "peak_mem_mb": 4151.6015625,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.6278615593910217,
+              "speedup_formula": 0.33635802715556046,
+              "c": 0.8393293867285476,
+              "v_k": 1.0980565835897291
+            }
           },
           "summary": {
             "tokens_equal": 6,
@@ -569,19 +994,42 @@
               null
             ],
             "new_tokens": 663,
-            "total_s": 36.045689133999986,
-            "tokens_per_s": 18.393322916793046,
-            "mean_latency_ms": 6007.614855666664,
-            "speedup_vs_greedy": 0.6259389063730725,
+            "total_s": 32.85354357999995,
+            "tokens_per_s": 20.180471503342197,
+            "mean_latency_ms": 5475.590596666659,
+            "speedup_vs_greedy": 0.6276998727636138,
             "acceptance_rate": 0.5028409090909091,
             "mean_accepted_per_iter": 4.159090909090909,
             "tokens_per_target_forward": 4.804347826086956,
             "target_forwards": 138,
             "draft_forwards": 1056,
-            "peak_mem_mb": 4057.56298828125
+            "peak_mem_mb": 4069.28173828125,
+            "empty_drafts": 0,
+            "predicted": {
+              "E_tokens_per_iter": 2.007294480346541,
+              "speedup_formula": 0.25692738984548014,
+              "c": 0.8393293867285476,
+              "v_k": 1.0980565835897291
+            }
           }
         }
       }
+    }
+  },
+  "cost_model": {
+    "context_len": 378,
+    "target_step_ms": 30.841203000022688,
+    "verify_ms": {
+      "2": 33.72722200003864,
+      "4": 34.07330999993974,
+      "6": 34.10395600008087,
+      "8": 33.86538600000222
+    },
+    "v_k": {
+      "2": 1.0935767323996353,
+      "4": 1.1047983439528826,
+      "6": 1.1057920146647906,
+      "8": 1.0980565835897291
     }
   }
 }
