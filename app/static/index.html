@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TrialMatch Screener</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="logo" aria-hidden="true">TM</div>
+    <div>
+      <h1>TrialMatch Screener</h1>
+      <p class="sub">Criterion-level clinical trial eligibility with a fine-tuned Qwen2.5-1.5B</p>
+    </div>
+  </div>
+  <div id="status" class="pill pill-wait" role="status" aria-live="polite">Connecting…</div>
+</header>
+
+<div class="disclaimer">Educational research prototype. Predictions come only from the text you enter and must not be used for real enrollment decisions.</div>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" class="tab active" data-tab="screen" aria-selected="true">Screen</button>
+  <button role="tab" class="tab" data-tab="bench" aria-selected="false">Benchmarks</button>
+  <button role="tab" class="tab" data-tab="about" aria-selected="false">About</button>
+</nav>
+
+<main>
+  <!-- ============================ SCREEN ============================ -->
+  <section id="tab-screen" class="tabpanel">
+    <div class="grid">
+      <form id="form" class="card inputs" autocomplete="off">
+        <div class="row between">
+          <h2>Input</h2>
+          <div class="row gap">
+            <label for="example" class="sr">Example</label>
+            <select id="example"><option value="">Load an example…</option></select>
+          </div>
+        </div>
+
+        <label for="note">Patient note <span class="hint">free text, or numbered “0. … 1. …”</span></label>
+        <textarea id="note" rows="9" placeholder="A 58-year-old woman presents with chest pain…"></textarea>
+        <div id="note-meta" class="hint"></div>
+
+        <label for="criteria">Trial criteria <span class="hint">one per line, under the two headings</span></label>
+        <textarea id="criteria" rows="9" placeholder="Inclusion Criteria:&#10;- Age 18 to 65 years&#10;Exclusion Criteria:&#10;- Pregnancy"></textarea>
+        <div id="crit-meta" class="hint"></div>
+
+        <div class="row gap wrap opts">
+          <div>
+            <label for="decoder">Decoder</label>
+            <select id="decoder">
+              <option value="kv">KV cache, shared note prefix (default)</option>
+              <option value="spec_lookup">Speculative, prompt-lookup drafter</option>
+              <option value="spec_draft">Speculative, 0.5B draft model</option>
+              <option value="nocache">No cache (slow reference)</option>
+            </select>
+          </div>
+          <div id="k-wrap" hidden>
+            <label for="k">Draft length k</label>
+            <input id="k" type="number" min="1" max="12" value="4">
+          </div>
+        </div>
+
+        <div class="row gap">
+          <button id="run" type="submit" class="btn primary">Screen patient</button>
+          <button id="clear" type="button" class="btn">Clear</button>
+        </div>
+        <div id="form-error" class="error" role="alert" hidden></div>
+      </form>
+
+      <div class="results">
+        <div id="empty" class="card empty">
+          <h2>Results</h2>
+          <p>Enter a patient note and trial criteria, or load an example, then click <b>Screen patient</b>.
+             Each criterion gets one of the dataset's labels, the note sentences that support it, and an explanation built only from those sentences.</p>
+        </div>
+
+        <div id="progress" class="card" hidden>
+          <div class="spinner" aria-hidden="true"></div>
+          <p id="progress-text">Screening…</p>
+        </div>
+
+        <div id="out" hidden>
+          <div id="overall" class="card banner"></div>
+          <div id="warnings"></div>
+
+          <div class="card">
+            <div class="row between wrap">
+              <h2>Criteria</h2>
+              <div class="row gap wrap">
+                <button class="btn small" data-export="json">JSON</button>
+                <button class="btn small" data-export="markdown">Markdown</button>
+                <button class="btn small" data-export="html">HTML report</button>
+              </div>
+            </div>
+            <div id="filters" class="row gap wrap filters"></div>
+            <ol id="crit-list" class="crit-list"></ol>
+            <p id="timing" class="hint"></p>
+          </div>
+
+          <div class="card">
+            <h2>Patient note as the model saw it</h2>
+            <p class="hint">Click a criterion to highlight its evidence. Sentence numbers are the ones the model cites.</p>
+            <ol id="note-view" class="note-view" start="0"></ol>
+          </div>
+
+          <div id="compare" class="card" hidden>
+            <h2>Live decoder comparison</h2>
+            <div id="compare-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ BENCHMARKS ============================ -->
+  <section id="tab-bench" class="tabpanel" hidden>
+    <div id="bench-body"><div class="card"><p>Loading results…</p></div></div>
+  </section>
+
+  <!-- ============================ ABOUT ============================ -->
+  <section id="tab-about" class="tabpanel" hidden>
+    <div class="card prose">
+      <h2>What this does</h2>
+      <p>For each eligibility criterion the fine-tuned model reads the numbered patient note and returns one label and the sentence numbers that support it, as JSON. The overall decision is a simple rule on top: any “not included” or “excluded” makes the patient likely ineligible; otherwise any “not enough information” means the case needs review.</p>
+      <h3>Labels</h3>
+      <table class="tbl">
+        <tr><th>Criterion type</th><th>Labels</th></tr>
+        <tr><td>Inclusion</td><td>included · not included · not enough information · not applicable</td></tr>
+        <tr><td>Exclusion</td><td>excluded · not excluded · not enough information · not applicable</td></tr>
+      </table>
+      <h3>Model</h3>
+      <p>Qwen2.5-1.5B-Instruct with a class-balanced LoRA adapter (rank 16 on all attention and MLP projections, 18.5M trainable parameters), trained only on the 37 training patients of <code>ncbi/TrialGPT-Criterion-Annotations</code> and chosen on the 8 validation patients. GPT-4 outputs in the dataset were never used.</p>
+      <h3>Decoders</h3>
+      <ul>
+        <li><b>KV cache</b>: our own decoding loop. The system prompt and patient note are encoded once and that cache is reused for every criterion, so only the criterion text is processed per criterion.</li>
+        <li><b>Speculative, prompt lookup</b>: proposes the next tokens by copying from the prompt, and the target model checks them in one pass. Output is identical to normal greedy decoding.</li>
+        <li><b>Speculative, draft model</b>: a fine-tuned Qwen2.5-0.5B proposes tokens. Also identical output, but it only pays off when the draft is much cheaper than the target.</li>
+        <li><b>No cache</b>: recomputes everything for each new token. Kept only as the correctness reference.</li>
+      </ul>
+      <h3>Limitations</h3>
+      <ul>
+        <li>Trained on 602 criterion annotations from 37 patients; test accuracy 72% and macro-F1 0.63 on 8 unseen patients.</li>
+        <li>The most common error is deciding a criterion when the note does not contain the information (“overconfident”).</li>
+        <li>Long notes are cut from the end to fit the input budget; the app warns when this happens.</li>
+        <li>Explanations quote the cited sentences; they are not a clinical justification.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">GenAI (AI-4009) Assignment 2 · FAST-NUCES · research prototype</footer>
+<script src="/static/app.js"></script>
+</body>
+</html>

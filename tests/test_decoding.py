@@ -128,3 +128,42 @@ def test_model_runs_on_tiled_attention():
             toks = greedy_kv(m, ids, 15, stop_at_eos=False)["tokens"]
     assert ctx.calls > 0 and (base - til).abs().max() < 1e-4
     assert toks == greedy_kv(m, ids, 15, stop_at_eos=False)["tokens"]
+
+
+@pytest.mark.parametrize("k", [1, 3, 6])
+def test_prompt_lookup_speculative_equals_greedy(k):
+    target = tiny_qwen(0, layers=3)
+    for seed in range(3):
+        base = torch.randint(0, 97, (1, 12), generator=torch.Generator().manual_seed(seed))
+        ids = torch.cat([base, base, base[:, :5]], dim=1)          # repetitive prompt -> lookups hit
+        ref = greedy_kv(target, ids, 30, stop_at_eos=False)["tokens"]
+        r = speculative_greedy(target, "prompt_lookup", ids, 30, k=k, stop_at_eos=False)
+        assert r["tokens"] == ref
+        assert r["stats"]["drafter"] == "prompt_lookup"
+
+
+def test_prompt_lookup_draft_proposals():
+    from trialmatch.speculative import prompt_lookup_draft
+    S = [1, 2, 3, 4, 5, 9, 2, 3]
+    assert prompt_lookup_draft(S, 3) == [4, 5, 9]                  # "2 3" seen before -> "4 5 9"
+    assert prompt_lookup_draft([7, 8, 9], 2) == []                 # no earlier match
+
+
+def test_prefix_cache_reuse_equals_full_prefill():
+    from trialmatch.kv_decode import prefill_prefix
+    m = tiny_qwen(0)
+    prefix = torch.randint(0, 97, (1, 40), generator=torch.Generator().manual_seed(2))
+    cache = prefill_prefix(m, prefix)
+    for seed in range(3):
+        suffix = torch.randint(0, 97, (1, 5 + seed), generator=torch.Generator().manual_seed(10 + seed))
+        ids = torch.cat([prefix, suffix], dim=1)
+        full = greedy_kv(m, ids, 20, stop_at_eos=False)["tokens"]
+        reused = greedy_kv(m, ids, 20, stop_at_eos=False, prefix_cache=cache, prefix_len=40)
+        assert reused["tokens"] == full and reused["prefilled_tokens"] == 5 + seed
+        assert cache.get_seq_length() == 40                         # handed back unchanged
+
+
+def test_cost_model_formula():
+    from trialmatch.speculative import expected_tokens_per_iter, predicted_speedup
+    assert expected_tokens_per_iter(1.0, 4) == 5 and abs(expected_tokens_per_iter(0.0, 4) - 1) < 1e-12
+    assert predicted_speedup(0.85, 4, 0.75, 1.0) < 1 < predicted_speedup(0.85, 4, 0.0, 1.1)

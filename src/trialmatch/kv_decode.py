@@ -84,18 +84,41 @@ def greedy_no_cache(model, input_ids, max_new_tokens, eos_ids=(), stop_at_eos=Tr
 
 
 @torch.no_grad()
-def greedy_kv(model, input_ids, max_new_tokens, eos_ids=(), stop_at_eos=True, trace_cache=False):
-    """KV-cached greedy decoding with explicit cache reuse, positions and mask."""
+def prefill_prefix(model, prefix_ids):
+    """Run the model once over a shared prefix and return its cache (for prefix reuse)."""
+    device = prefix_ids.device
+    n = prefix_ids.shape[1]
+    cache = DynamicCache()
+    model(input_ids=prefix_ids, attention_mask=torch.ones_like(prefix_ids),
+          position_ids=torch.arange(n, device=device)[None], cache_position=torch.arange(n, device=device),
+          past_key_values=cache, use_cache=True, num_logits_to_keep=1)
+    return cache
+
+
+@torch.no_grad()
+def greedy_kv(model, input_ids, max_new_tokens, eos_ids=(), stop_at_eos=True, trace_cache=False,
+              prefix_cache=None, prefix_len=0):
+    """KV-cached greedy decoding with explicit cache reuse, positions and mask.
+
+    prefix_cache / prefix_len (optional): a cache that already holds the first prefix_len
+    tokens of input_ids (e.g. the system prompt + patient note shared by every criterion).
+    Only input_ids[prefix_len:] is prefilled; afterwards the cache is cropped back to
+    prefix_len so the caller can reuse it for the next criterion.
+    """
     device = input_ids.device
     L = input_ids.shape[1]
-    cache = DynamicCache()
+    if prefix_cache is not None:
+        assert prefix_cache.get_seq_length() == prefix_len < L, "prefix must be a strict prefix"
+        cache, start = prefix_cache, prefix_len
+    else:
+        cache, start = DynamicCache(), 0
     trace = []
     _sync(device); t0 = time.perf_counter()
 
-    # ---- prefill: whole prompt once, cache now holds L positions
-    out = model(input_ids=input_ids, attention_mask=torch.ones_like(input_ids),
-                position_ids=torch.arange(L, device=device)[None],
-                cache_position=torch.arange(L, device=device),
+    # ---- prefill: the (remaining) prompt once, cache now holds L positions
+    out = model(input_ids=input_ids[:, start:], attention_mask=torch.ones_like(input_ids),
+                position_ids=torch.arange(start, L, device=device)[None],
+                cache_position=torch.arange(start, L, device=device),
                 past_key_values=cache, use_cache=True, num_logits_to_keep=1)
     cache = out.past_key_values
     nxt = out.logits[:, -1].argmax(-1)
@@ -122,7 +145,10 @@ def greedy_kv(model, input_ids, max_new_tokens, eos_ids=(), stop_at_eos=True, tr
             trace.append(_cache_shape(cache))
     _sync(device); t_end = time.perf_counter()
     res = {"tokens": out_tokens, "prefill_s": t_first - t0, "decode_s": t_end - t_first,
-           "total_s": t_end - t0, "final_cache_len": cache.get_seq_length()}
+           "total_s": t_end - t0, "final_cache_len": cache.get_seq_length(),
+           "prefilled_tokens": L - start, "reused_prefix_tokens": start}
+    if prefix_cache is not None:
+        cache.crop(prefix_len)                 # hand the shared prefix back unchanged
     if trace_cache:
         res["cache_trace"] = trace
     return res

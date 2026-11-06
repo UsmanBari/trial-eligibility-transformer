@@ -6,9 +6,13 @@ memory. Two prompt sets:
   * task:    the real eligibility prompts (short JSON answers, natural EOS stop)
   * summary: "summarise this patient note" prompts (longer free-text answers)
 
+Also measures the cost model: one draft step / one target step (c) and the cost of
+verifying k+1 tokens at once (v_k), then compares predicted speedup E(a,k)/(v_k + k*c)
+with the measured one, so any slowdown is explained with numbers.
+
 Usage:  python scripts/bench_spec.py --adapter <target adapter> \
-            --drafts base=Qwen/Qwen2.5-0.5B-Instruct tuned=Qwen/Qwen2.5-0.5B-Instruct@outputs/lora_draft_best \
-            --ks 2 4 6 8 --dtype float16
+            --drafts lookup=prompt_lookup base=Qwen/Qwen2.5-0.5B-Instruct \
+                     tuned=Qwen/Qwen2.5-0.5B-Instruct@<draft adapter> --ks 2 4 6 8 --dtype float16
 Writes: results/bench/spec_<dtype>.json
 """
 import argparse
@@ -26,7 +30,8 @@ from trialmatch.data import load_split  # noqa: E402
 from trialmatch.kv_decode import eos_ids_of, greedy_kv  # noqa: E402
 from trialmatch.modeling import load_model, load_tokenizer, model_card  # noqa: E402
 from trialmatch.prompting import build_prompt, format_note  # noqa: E402
-from trialmatch.speculative import check_draft_compatible, speculative_greedy  # noqa: E402
+from trialmatch.speculative import (PROMPT_LOOKUP, check_draft_compatible, expected_tokens_per_iter,  # noqa: E402
+                                    predicted_speedup, speculative_greedy, step_costs_ms)
 
 
 def mem_reset(device):
@@ -58,7 +63,7 @@ def main():
     ap.add_argument("--config", default=str(ROOT / "configs/default.yaml"))
     ap.add_argument("--adapter", default=None, help="target adapter")
     ap.add_argument("--drafts", nargs="+", default=["base=Qwen/Qwen2.5-0.5B-Instruct"],
-                    help="name=hf_id or name=hf_id@adapter_path")
+                    help="name=hf_id, name=hf_id@adapter_path, or name=prompt_lookup")
     ap.add_argument("--ks", type=int, nargs="+", default=[2, 4, 6, 8])
     ap.add_argument("--dtype", default="float16", choices=["float16", "bfloat16", "float32"])
     ap.add_argument("--n-task", type=int, default=20)
@@ -80,6 +85,15 @@ def main():
            "device": torch.cuda.get_device_name(0) if device.type == "cuda" else "cpu",
            "baseline": {}, "drafts": {}}
 
+    # ---- cost model inputs: target single-step and (k+1)-token verify latency at a typical context
+    ctx = int(sum(x.shape[1] for x in enc["task"]) / len(enc["task"]))
+    t_costs = step_costs_ms(target, ctx, [1] + [k + 1 for k in a.ks])
+    out["cost_model"] = {"context_len": ctx, "target_step_ms": t_costs[1],
+                         "verify_ms": {k: t_costs[k + 1] for k in a.ks},
+                         "v_k": {k: t_costs[k + 1] / t_costs[1] for k in a.ks}}
+    print(f"[cost] target 1-token step {t_costs[1]:.1f} ms; verify k+1 tokens: "
+          + ", ".join(f"k={k}: {t_costs[k + 1]:.1f} ms (x{t_costs[k + 1] / t_costs[1]:.2f})" for k in a.ks))
+
     # ---- baseline: ordinary greedy decoding of the target (KV cached), warm-up first
     greedy_kv(target, enc["task"][0], 8, eos)
     base_tokens = {}
@@ -98,13 +112,23 @@ def main():
 
     for spec in a.drafts:
         dname, rest = spec.split("=", 1)
-        did, dadapter = (rest.split("@", 1) + [None])[:2]
-        draft = load_model(did, dadapter, dtype=dt)
-        dtok = load_tokenizer(did)
-        compat = check_draft_compatible(tok, dtok, target, draft)
-        assert compat["compatible"], f"draft {dname} is not tokenizer-compatible: {compat}"
+        if rest == PROMPT_LOOKUP:
+            draft, c_ratio = PROMPT_LOOKUP, 0.0
+            res = {"draft_model": PROMPT_LOOKUP, "draft_adapter": None,
+                   "compatibility": {"compatible": True, "note": "drafts are copied target-vocabulary tokens"},
+                   "draft_step_ms": 0.0, "c": 0.0, "by_k": {}}
+        else:
+            did, dadapter = (rest.split("@", 1) + [None])[:2]
+            draft = load_model(did, dadapter, dtype=dt)
+            dtok = load_tokenizer(did)
+            compat = check_draft_compatible(tok, dtok, target, draft)
+            assert compat["compatible"], f"draft {dname} is not tokenizer-compatible: {compat}"
+            d_ms = step_costs_ms(draft, ctx, [1])[1]
+            c_ratio = d_ms / t_costs[1]
+            res = {"draft_model": model_card(draft, did), "draft_adapter": dadapter, "compatibility": compat,
+                   "draft_step_ms": d_ms, "c": c_ratio, "by_k": {}}
+            print(f"[cost] {dname}: draft step {d_ms:.1f} ms = {c_ratio:.2f} x target step")
         speculative_greedy(target, draft, enc["task"][0], 8, k=2, eos_ids=eos)      # warm-up
-        res = {"draft_model": model_card(draft, did), "draft_adapter": dadapter, "compatibility": compat, "by_k": {}}
         for k in a.ks:
             res["by_k"][k] = {}
             for s, ids_list in enc.items():
@@ -130,11 +154,18 @@ def main():
                        if drafted else None,
                        "tokens_per_target_forward": n_tok / tfw, "target_forwards": tfw,
                        "draft_forwards": sum(r["stats"]["draft_forwards"] for r in runs),
-                       "peak_mem_mb": mem_peak(device)}
+                       "peak_mem_mb": mem_peak(device),
+                       "empty_drafts": sum(r["stats"]["empty_drafts"] for r in runs)}
+                alpha = row["acceptance_rate"]
+                v_k = out["cost_model"]["v_k"][k]
+                row["predicted"] = {"E_tokens_per_iter": expected_tokens_per_iter(alpha, k),
+                                    "speedup_formula": predicted_speedup(alpha, k, c_ratio, v_k) if alpha is not None else None,
+                                    "c": c_ratio, "v_k": v_k}
                 res["by_k"][k][s] = row
-                print(f"[{dname:5s} k={k}] {s:8s} equal {sum(eq)}/{len(runs)}  accept {row['acceptance_rate']:.2f}  "
+                print(f"[{dname:6s} k={k}] {s:8s} equal {sum(eq)}/{len(runs)}  accept {(row['acceptance_rate'] or 0):.2f}  "
                       f"{row['tokens_per_s']:6.1f} tok/s  speedup x{row['speedup_vs_greedy']:.2f}  "
-                      f"tok/target-pass {row['tokens_per_target_forward']:.2f}")
+                      f"tok/target-pass {row['tokens_per_target_forward']:.2f}  "
+                      f"predicted x{(row['predicted']['speedup_formula'] or 0):.2f}")
         out["drafts"][dname] = res
         del draft
         if device.type == "cuda":

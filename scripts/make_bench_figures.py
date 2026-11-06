@@ -71,21 +71,28 @@ def spec():
     if not p.exists():
         return
     d = json.load(open(p))
-    fig, axes = plt.subplots(1, 3, figsize=(12, 3.2))
-    colors = ["#3b6ea5", "#d1495b", "#66a182"]
+    nan = float("nan")
+    val = lambda x: nan if x is None else x
+    fig, axes = plt.subplots(1, 3, figsize=(12.5, 3.3))
+    colors = ["#3b6ea5", "#d1495b", "#66a182", "#edae49"]
     for (dname, res), col in zip(d["drafts"].items(), colors):
         ks = sorted(res["by_k"], key=int)
+        x = [int(k) for k in ks]
         for s, ls in (("task", "-"), ("summary", "--")):
-            axes[0].plot([int(k) for k in ks], [res["by_k"][k][s]["acceptance_rate"] for k in ks], ls, marker="o",
-                         color=col, label=f"{dname} draft, {s}")
-            axes[1].plot([int(k) for k in ks], [res["by_k"][k][s]["speedup_vs_greedy"] for k in ks], ls,
-                         marker="o", color=col)
-            axes[2].plot([int(k) for k in ks], [res["by_k"][k][s]["tokens_per_target_forward"] for k in ks], ls,
-                         marker="o", color=col)
+            rows = [res["by_k"][k][s] for k in ks]
+            axes[0].plot(x, [val(r["acceptance_rate"]) for r in rows], ls, marker="o", color=col,
+                         label=f"{dname}, {s}")
+            axes[1].plot(x, [r["speedup_vs_greedy"] for r in rows], ls, marker="o", color=col)
+            if s == "task" and "predicted" in rows[0]:
+                axes[1].plot(x, [val(r["predicted"]["speedup_formula"]) for r in rows], "x", color=col, ms=7)
+            axes[2].plot(x, [r["tokens_per_target_forward"] for r in rows], ls, marker="o", color=col)
     axes[1].axhline(1.0, color="black", lw=0.8)
-    for ax, yl in zip(axes, ("draft acceptance rate", "speedup vs target greedy", "tokens per target forward")):
+    axes[1].plot([], [], "x", color="gray", label="predicted (task)")
+    titles = ("draft acceptance rate", "speedup vs target greedy", "tokens per target forward")
+    for ax, yl in zip(axes, titles):
         ax.set_xlabel("draft length k"); ax.set_ylabel(yl); ax.grid(alpha=0.3)
     axes[0].legend(frameon=False, fontsize=7)
+    axes[1].legend(frameon=False, fontsize=7, loc="upper right")
     save(fig, "speculative_benchmark")
 
 

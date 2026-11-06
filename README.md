@@ -12,8 +12,8 @@ greedy speculative decoding. GenAI (AI-4009) Assignment 2, FAST-NUCES.
 |---|---|---|
 | M1 | Data prep, fixed 37/8/8 split + manifest, metrics, zero-shot baseline | done |
 | M2 | Fine-tuning (LoRA) + checkpoint selection + before/after + final test + error analysis | done |
-| M3 | KV-cache decoder, tiled attention, speculative decoding, class-balanced v2 | code ready |
-| M4 | Browser application | |
+| M3 | KV-cache decoder, tiled attention, speculative decoding, class-balanced v2 | done |
+| M4 | Browser app, prompt-lookup speculative drafter, speculative cost model | code ready |
 | M5 | IEEE report, demo video | |
 
 ## Task setup
@@ -65,12 +65,48 @@ python scripts/evaluate.py --model Qwen/Qwen2.5-1.5B-Instruct --split val --tag 
 
 On Kaggle: open `notebooks/01_data_and_baseline.ipynb`, set **GPU T4 x1** and **Internet on**, Run All.
 
+## Browser app
+
+Runs on a normal laptop (CPU is fine). The first start downloads Qwen2.5-1.5B-Instruct (~3 GB)
+and the LoRA adapters from HuggingFace.
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate                      # Windows  (Linux/macOS: source .venv/bin/activate)
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements.txt && pip install -e .
+python scripts/prepare_data.py             # optional: adds validation patients as examples
+python -m app                              # then open http://127.0.0.1:8000
+```
+
+Options: `--dtype bfloat16` halves RAM (~3.5 GB instead of ~7 GB), `--adapter none` runs the
+zero-shot base model, `--load-draft` loads the 0.5B draft model at start, `--port 8080`.
+
+What it does:
+* paste a patient note (free text or numbered sentences) and trial criteria under
+  `Inclusion Criteria:` / `Exclusion Criteria:` headings, or load an example;
+* every criterion gets a label, cited note sentences (highlighted in the note) and an explanation
+  built only from those sentences, plus an overall rule-based decision
+  (likely eligible / likely not eligible / needs review);
+* decoders: our KV-cache loop with the shared system-prompt + note prefix encoded once
+  (default), speculative decoding with the prompt-lookup drafter or the 0.5B draft, and the
+  no-cache reference; "compare decoders" runs one criterion through all of them live;
+* export as JSON, Markdown or a printable HTML report;
+* **Benchmarks** tab: evaluation table and the Task 3/4/5 results read from `results/`;
+* input errors, model loading state and truncation are reported in the UI.
+
+Model weights: [LoRA v2 (final)](https://huggingface.co/usmanbari2005/trialmatch-qwen25-1p5b-lora-v2) ·
+[LoRA v1](https://huggingface.co/usmanbari2005/trialmatch-qwen25-1p5b-lora) ·
+[0.5B draft LoRA](https://huggingface.co/usmanbari2005/trialmatch-qwen25-0p5b-draft-lora)
+
 ## Repository layout
 
 ```
 configs/default.yaml        paths, split, models, generation settings
 src/trialmatch/             data, prompting, metrics, modeling, sft,
-                            kv_decode (Task 3), attention (Task 4), speculative (Task 5)
+                            kv_decode (Task 3), attention (Task 4), speculative (Task 5),
+                            inference + report (used by the app)
+app/                        FastAPI server + static web UI (python -m app)
 scripts/                    prepare_data, evaluate, train_lora, select_checkpoint, rescore,
                             error_analysis, make_figures, bench_kv, bench_attention,
                             bench_spec, make_bench_figures
