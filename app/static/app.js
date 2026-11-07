@@ -42,7 +42,7 @@ async function pollHealth() {
       return;
     }
     if (h.status === "error") { pill.className = "pill pill-bad"; pill.textContent = "Model failed to load"; pill.title = h.error; return; }
-    pill.className = "pill pill-wait"; pill.textContent = "Loading model… (first run downloads ~3 GB)";
+    pill.className = "pill pill-wait"; pill.textContent = "Loading model…"; pill.title = "Loading weights into memory (the first run also downloads ~3 GB).";
   } catch (e) { pill.className = "pill pill-bad"; pill.textContent = "Server offline"; }
   setTimeout(pollHealth, 2000);
 }

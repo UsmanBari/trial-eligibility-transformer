@@ -14,7 +14,9 @@ greedy speculative decoding. GenAI (AI-4009) Assignment 2, FAST-NUCES.
 | M2 | Fine-tuning (LoRA) + checkpoint selection + before/after + final test + error analysis | done |
 | M3 | KV-cache decoder, tiled attention, speculative decoding, class-balanced v2 | done |
 | M4 | Browser app, prompt-lookup speculative drafter, speculative cost model | done |
-| M5 | IEEE report (`report/main.pdf`), demo video | report done, video pending |
+| M5 | IEEE report (`report/main.pdf`), demo video | done |
+
+**Demo video (5-7 min):** https://youtu.be/yTGi0hUCeyk
 
 ## Task setup
 
