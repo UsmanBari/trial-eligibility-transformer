@@ -13,8 +13,8 @@ greedy speculative decoding. GenAI (AI-4009) Assignment 2, FAST-NUCES.
 | M1 | Data prep, fixed 37/8/8 split + manifest, metrics, zero-shot baseline | done |
 | M2 | Fine-tuning (LoRA) + checkpoint selection + before/after + final test + error analysis | done |
 | M3 | KV-cache decoder, tiled attention, speculative decoding, class-balanced v2 | done |
-| M4 | Browser app, prompt-lookup speculative drafter, speculative cost model | code ready |
-| M5 | IEEE report, demo video | |
+| M4 | Browser app, prompt-lookup speculative drafter, speculative cost model | done |
+| M5 | IEEE report (`report/main.pdf`), demo video | report done, video pending |
 
 ## Task setup
 
@@ -70,6 +70,13 @@ On Kaggle: open `notebooks/01_data_and_baseline.ipynb`, set **GPU T4 x1** and **
 Runs on a normal laptop (CPU is fine). The first start downloads Qwen2.5-1.5B-Instruct (~3 GB)
 and the LoRA adapters from HuggingFace.
 
+**Windows, no commands:** double-click `setup_app.bat` once (creates `.venv` with Python 3.10-3.12
+and installs everything), then double-click `start_app.bat`; the browser opens at
+http://127.0.0.1:8000. Close the console window to stop the app.
+
+**Any OS, manually** (use Python 3.10-3.12; Python 3.13+ has no pre-built `tokenizers` wheel for the
+pinned version on Windows):
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate                      # Windows  (Linux/macOS: source .venv/bin/activate)
@@ -98,6 +105,11 @@ What it does:
 Model weights: [LoRA v2 (final)](https://huggingface.co/usmanbari2005/trialmatch-qwen25-1p5b-lora-v2) ·
 [LoRA v1](https://huggingface.co/usmanbari2005/trialmatch-qwen25-1p5b-lora) ·
 [0.5B draft LoRA](https://huggingface.co/usmanbari2005/trialmatch-qwen25-0p5b-draft-lora)
+
+## Report
+
+IEEE-format paper: [`report/main.pdf`](report/main.pdf) (LaTeX source `report/main.tex`;
+rebuild with `cd report && latexmk -pdf main.tex`).
 
 ## Repository layout
 

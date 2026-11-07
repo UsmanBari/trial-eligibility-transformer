@@ -5,3 +5,10 @@ data/processed/
 outputs/
 *.safetensors
 *.bin
+.venv/
+report/*.aux
+report/*.log
+report/*.out
+report/*.fls
+report/*.fdb_latexmk
+report/build.log
